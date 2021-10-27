@@ -1,0 +1,38 @@
+<div class="card text-dark bg-light mb-3" style="margin-top: 2%;">
+  <div class="card-body">
+    <figure class="text-center">
+      <h3>Listado de productos.</h3>
+    </figure>
+    {{#if products.length}}
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Título</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Foto</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each products}}
+            <tr>
+              <th scope="row">{{this.id}}</th>
+              <td>{{this.title}}</td>
+              <td>{{this.price}}</td>
+              <td>
+                <img
+                  style="max-width: 50px; max-height: 50px;"
+                  src={{this.thumbnail}}
+                />
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{else}}
+      <figure class="text-center text-secondary">
+        <h4>No hay productos disponibles.</h4>
+      </figure>
+    {{/if}}
+  </div>
+</div>

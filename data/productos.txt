@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Escuadra",
+    "price": 123.45,
+    "thumbnail": "https://cdn2.iconfinder.com/data/icons/draw-and-design/512/esquadra-2-512.png",
+    "id": 1
+  },
+  {
+    "title": "Calculadora",
+    "price": 234.56,
+    "thumbnail": "https://cdn1.iconfinder.com/data/icons/ui-basic-18/32/calculator-512.png",
+    "id": 2
+  },
+  {
+    "title": "Globo Terráqueo",
+    "price": 345.67,
+    "thumbnail": "https://cdn0.iconfinder.com/data/icons/map-location-set-2/64/x-13-512.png",
+    "id": 3
+  },
+  {
+    "title": "prueba",
+    "price": 10,
+    "thumbnail": "https://cdn0.iconfinder.com/data/icons/map-location-set-2/64/x-13-512.png",
+    "id": 4
+  }
+]

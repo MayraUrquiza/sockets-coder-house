@@ -1,0 +1,76 @@
+<div class="container-fluid container-md">
+  <div class="card text-dark bg-light mb-3" style="margin-top: 2%;">
+    <div class="card-body">
+      <figure class="text-center">
+        <h3>Registrar nuevo producto.</h3>
+      </figure>
+      <form onsubmit="return addProduct(this)">
+        <div class="mb-3">
+          <label for="title" class="form-label">Título</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            name="title"
+            placeholder="Nombre del producto"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="price" class="form-label">Precio</label>
+          <input
+            type="text"
+            class="form-control"
+            id="price"
+            name="price"
+            placeholder="Precio del producto"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="thumbnail" class="form-label">Link de imagen</label>
+          <input
+            type="text"
+            class="form-control"
+            id="thumbnail"
+            name="thumbnail"
+            placeholder="Imagen del producto"
+          />
+        </div>
+        <button type="submit" class="btn btn-success">Guardar</button>
+      </form>
+    </div>
+  </div>
+  <div id="products"></div>
+
+  <div class="card text-dark bg-light mb-3" style="margin-top: 2%;">
+    <div class="card-body">
+      <figure class="text-center">
+        <h3>Centro de mensajes.</h3>
+      </figure>
+      <form onsubmit="return addMessage(this)">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            required="true"
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            placeholder="Email"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="message" class="form-label">Mensaje</label>
+          <input
+            type="text"
+            class="form-control"
+            id="message"
+            name="message"
+            placeholder="Ingrese un mensaje..."
+          />
+        </div>
+        <button type="submit" class="btn btn-success">Enviar</button>
+      </form>
+      <div id="messages" style="height:450px; overflow-y: scroll; margin-top: 2%;"></div>
+    </div>
+  </div>
+</div>

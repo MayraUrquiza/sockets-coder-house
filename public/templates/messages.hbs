@@ -1,0 +1,21 @@
+
+{{#if messages}}
+  <div class="table-responsive">
+    <table>
+      {{#each messages}}
+        <tr>
+          <td>
+            <b style="color:blue">{{this.email}}</b>
+            [<span style="color:brown">{{this.date}}</span>]:
+            <i style="color:green">{{this.message}}</i>
+          </td>
+        </tr>
+      {{/each}}
+    </table>
+  </div>
+{{else}}
+  <figure class="text-center text-secondary">
+    <h4>Todavía no hay mensajes.</h4>
+  </figure>
+{{/if}}
+<br />
