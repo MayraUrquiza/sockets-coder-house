@@ -5,7 +5,6 @@ const FILE_PATH = "data/"
 class Container {
   constructor(name) {
     this.name = join(process.cwd(), FILE_PATH.concat(name))
-    console.log(this.name);
   }
 
   persist(array = []) {
