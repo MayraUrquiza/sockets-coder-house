@@ -2,11 +2,15 @@ const express = require("express");
 const handlebars = require("express-handlebars");
 const { Server: HttpServer } = require("http");
 const { Server: IOServer } = require("socket.io");
-const { container } = require("./containers/Container.js");
+const { routerProducts } = require("./router/productRouter");
+const mariaDBOptions = require("./utils/mariaDB");
+const sqlite3Options = require("./utils/sqlite3");
+
+const { container } = require("./containers/KnexContainer.js");
 
 const PORT = process.env.PORT || 8080;
-const productsContainer = container("productos.txt");
-const messagesContainer = container("mensajes.txt");
+const productsContainer = container("products", mariaDBOptions);
+const messagesContainer = container("messages", sqlite3Options);
 
 const app = express();
 
@@ -46,6 +50,8 @@ app.set("view engine", "hbs");
 app.get("/", (req, res) => {
   res.render("main", {});
 });
+
+app.use("/api/productos", routerProducts);
 
 const server = httpServer.listen(PORT, () =>
   console.log(`Listen on ${server.address().port}`)
