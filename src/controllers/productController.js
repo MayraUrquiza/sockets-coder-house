@@ -1,9 +1,8 @@
-const { container } = require("../containers/KnexContainer.js");
-const mariaDBOptions = require("../utils/mariaDB");
-
+import KnexContainer from "../containers/KnexContainer.js";
+import mariaDBOptions from "../utils/mariaDB.js";
 class ProductController {
   constructor() {
-    this.productContainer = container("products", mariaDBOptions);
+    this.productContainer = new KnexContainer("products", mariaDBOptions);
   }
 
   getProducts = async (req, res) => {
@@ -80,4 +79,4 @@ class ProductController {
   };
 }
 
-exports.ProductController = ProductController;
+export default ProductController;

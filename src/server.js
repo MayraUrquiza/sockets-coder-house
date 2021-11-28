@@ -1,16 +1,26 @@
-const express = require("express");
-const handlebars = require("express-handlebars");
-const { Server: HttpServer } = require("http");
-const { Server: IOServer } = require("socket.io");
-const { routerProducts } = require("./router/productRouter");
-const mariaDBOptions = require("./utils/mariaDB");
-const sqlite3Options = require("./utils/sqlite3");
+import express from "express";
+import handlebars from "express-handlebars";
+import { Server as HttpServer } from "http";
+import { Server as IOServer } from "socket.io";
+import KnexContainer from "./containers/KnexContainer.js";
+import MongoDBContainer from "./containers/MongoDBContainer.js";
+import routerProductsMock from "./router/productMockRouter.js";
+import routerProducts from "./router/productrouter.js";
+import mariaDBOptions from "./utils/mariaDB.js";
+import MessageSchema from "./schemas/message.js";
+import mongoose from "mongoose";
+import {
+  normalizeMessages,
+} from "./utils/messagesNormalizer.js";
 
-const { container } = require("./containers/KnexContainer.js");
+mongoose.connect("mongodb://localhost:27017/ecommerce", {
+  serverSelectionTimeoutMS: 5000,
+});
+console.log("Base de datos mongoDB conectada");
 
 const PORT = process.env.PORT || 8080;
-const productsContainer = container("products", mariaDBOptions);
-const messagesContainer = container("messages", sqlite3Options);
+const productsContainer = new KnexContainer("products", mariaDBOptions);
+const messagesContainer = new MongoDBContainer("mensajes", MessageSchema);
 
 const app = express();
 
@@ -20,8 +30,13 @@ const io = new IOServer(httpServer);
 io.on("connection", async (socket) => {
   console.log("Nuevo cliente conectado");
 
+  const messages = await messagesContainer.getAll();
+  const { normalizedMessages, compression } = normalizeMessages(
+    messages.map((message) => ({ ...message, id: message._id.toString() }))
+  );
+
   socket.emit("refreshProducts", await productsContainer.getAll());
-  socket.emit("refreshMessages", await messagesContainer.getAll());
+  socket.emit("refreshMessages", normalizedMessages, compression);
 
   socket.on("addProduct", async (producto) => {
     await productsContainer.save(producto);
@@ -30,7 +45,12 @@ io.on("connection", async (socket) => {
 
   socket.on("addMessage", async (mensaje) => {
     await messagesContainer.save(mensaje);
-    io.sockets.emit("refreshMessages", await messagesContainer.getAll());
+    const messages = await messagesContainer.getAll();
+    const { normalizedMessages, compression } = normalizeMessages(
+      messages.map((message) => ({ ...message, id: message._id.toString() }))
+    );
+
+    io.sockets.emit("refreshMessages", normalizedMessages, compression);
   });
 });
 
@@ -52,6 +72,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/productos", routerProducts);
+app.use("/api/productos-test", routerProductsMock);
 
 const server = httpServer.listen(PORT, () =>
   console.log(`Listen on ${server.address().port}`)

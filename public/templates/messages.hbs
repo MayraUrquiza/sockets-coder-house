@@ -5,9 +5,10 @@
       {{#each messages}}
         <tr>
           <td>
-            <b style="color:blue">{{this.email}}</b>
+            <img src={{this.author.avatar}} style="width: 30px; height: 30px;" />
+            <b style="color:blue">{{this.author.id}}</b>
             [<span style="color:brown">{{this.date}}</span>]:
-            <i style="color:green">{{this.message}}</i>
+            <i style="color:green">{{this.text}}</i>
           </td>
         </tr>
       {{/each}}

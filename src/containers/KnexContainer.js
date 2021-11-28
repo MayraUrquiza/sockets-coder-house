@@ -1,5 +1,4 @@
-const knex = require("knex");
-
+import knex from "knex";
 class KnexContainer {
   constructor(tableName, options) {
     this.connection = knex(options);
@@ -56,5 +55,4 @@ class KnexContainer {
   }
 }
 
-exports.container = (tableName, options) =>
-  new KnexContainer(tableName, options);
+export default KnexContainer;

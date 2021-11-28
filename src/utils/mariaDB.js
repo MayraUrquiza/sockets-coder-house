@@ -7,5 +7,4 @@ const mariaDBOptions = {
     database: "ecommerce",
   },
 };
-
-module.exports = mariaDBOptions;
+export default mariaDBOptions;

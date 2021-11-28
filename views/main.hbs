@@ -45,6 +45,7 @@
     <div class="card-body">
       <figure class="text-center">
         <h3>Centro de mensajes.</h3>
+        <h5 id="compression"></h5>
       </figure>
       <form onsubmit="return addMessage(this)">
         <div class="mb-3">
@@ -59,12 +60,67 @@
           />
         </div>
         <div class="mb-3">
-          <label for="message" class="form-label">Mensaje</label>
+          <label for="nombre" class="form-label">Nombre</label>
+          <input
+            required="true"
+            type="text"
+            class="form-control"
+            id="nombre"
+            name="nombre"
+            placeholder="nombre"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="apellido" class="form-label">Apellido</label>
+          <input
+            required="true"
+            type="text"
+            class="form-control"
+            id="apellido"
+            name="apellido"
+            placeholder="apellido"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="edad" class="form-label">Edad</label>
+          <input
+            required="true"
+            type="text"
+            class="form-control"
+            id="edad"
+            name="edad"
+            placeholder="edad"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="alias" class="form-label">Alias</label>
+          <input
+            required="true"
+            type="text"
+            class="form-control"
+            id="alias"
+            name="alias"
+            placeholder="alias"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="avatar" class="form-label">Avatar</label>
+          <input
+            required="true"
+            type="text"
+            class="form-control"
+            id="avatar"
+            name="avatar"
+            placeholder="avatar"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="text" class="form-label">Mensaje</label>
           <input
             type="text"
             class="form-control"
-            id="message"
-            name="message"
+            id="text"
+            name="text"
             placeholder="Ingrese un mensaje..."
           />
         </div>

@@ -6,4 +6,4 @@ const sqlite3Options = {
   useNullAsDefault: true,
 };
 
-module.exports = sqlite3Options;
+export default sqlite3Options;
