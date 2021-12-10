@@ -3,11 +3,9 @@ import mongoose from 'mongoose';
 class MongoDBContainer {
   constructor(model, schema) {
     this.model = mongoose.model(model, schema);
-    console.log("entra mongo");
   }
 
   async save(entry) {
-    console.log("entry", entry);
     try {
       const newDocument = new this.model(entry);
       const result = await newDocument.save();

@@ -1,4 +1,15 @@
 <div class="container-fluid container-md">
+  <div
+    class="alert alert-success"
+    role="alert"
+    style="margin-top: 2%; display: flex;
+    justify-content: space-between;"
+  >
+    <h2 id="welcome-message"></h2>
+    <form action="/api/logout" method="POST">
+      <button type="submit" class="btn btn-warning">Logout</button>
+    </form>
+  </div>
   <div class="card text-dark bg-light mb-3" style="margin-top: 2%;">
     <div class="card-body">
       <figure class="text-center">
@@ -126,7 +137,10 @@
         </div>
         <button type="submit" class="btn btn-success">Enviar</button>
       </form>
-      <div id="messages" style="height:450px; overflow-y: scroll; margin-top: 2%;"></div>
+      <div
+        id="messages"
+        style="height:450px; overflow-y: scroll; margin-top: 2%;"
+      ></div>
     </div>
   </div>
 </div>

@@ -1,0 +1,22 @@
+<div class="container-fluid container-md">
+  <div class="card text-dark bg-light mb-3" style="margin-top: 2%;">
+    <div class="card-body">
+      <figure class="text-center">
+        <h3>Login de usuario</h3>
+      </figure>
+      <form action="/api/login" method="POST">
+        <div class="mb-3">
+          <label for="name" class="form-label">Ingrese su nombre</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            placeholder="Nombre de usuario"
+          />
+        </div>
+        <button type="submit" class="btn btn-success">Ingresar</button>
+      </form>
+    </div>
+  </div>
+</div>

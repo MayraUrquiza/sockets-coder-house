@@ -12,6 +12,8 @@ import mongoose from "mongoose";
 import {
   normalizeMessages,
 } from "./utils/messagesNormalizer.js";
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 
 mongoose.connect("mongodb://localhost:27017/ecommerce", {
   serverSelectionTimeoutMS: 5000,
@@ -23,6 +25,14 @@ const productsContainer = new KnexContainer("products", mariaDBOptions);
 const messagesContainer = new MongoDBContainer("mensajes", MessageSchema);
 
 const app = express();
+
+app.use(session({
+  store: MongoStore.create({mongoUrl: 'mongodb://localhost/sesiones'}),
+  secret: 'supersecret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {maxAge: 1000 * 60},
+}))
 
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
@@ -67,12 +77,44 @@ app.engine(
 
 app.set("view engine", "hbs");
 
-app.get("/", (req, res) => {
+let username = '';
+
+const authenticate = (req, res, next) => {
+  if (!req.session.user) res.redirect("/logout");
+  else next();
+};
+
+app.get("/logout", (req, res) => {
+  res.render("logout", {username});
+});
+
+app.get("/login", (req, res) => {
+  res.render("login", {});
+});
+
+app.post("/api/login", (req, res) => {
+  req.session.user = req.body.name;
+  username = req.body.name;
+  res.redirect("/");
+});
+
+app.post("/api/logout", authenticate, (req, res) => {
+  req.session.destroy((err) => {
+    if (!err) res.redirect("/logout");
+    else res.send({ status: "Logout ERROR", body: err });
+  });
+});
+
+app.get("/", authenticate, (req, res) => {
   res.render("main", {});
 });
 
-app.use("/api/productos", routerProducts);
-app.use("/api/productos-test", routerProductsMock);
+app.get("/api/user-info", authenticate, (req, res) => {
+  res.status(200).json(req.session.user);
+});
+
+app.use("/api/productos", authenticate, routerProducts);
+app.use("/api/productos-test", authenticate, routerProductsMock);
 
 const server = httpServer.listen(PORT, () =>
   console.log(`Listen on ${server.address().port}`)

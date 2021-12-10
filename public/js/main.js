@@ -98,3 +98,13 @@ const denormalizeMessages = (normalizedMessages) => {
 
   return denormalizedMessages;
 };
+
+fetch("/api/user-info")
+  .then((res) => {
+    res.json().then((data) => {
+      document.getElementById("welcome-message").innerText = `Bienvenido ${data}`;
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
