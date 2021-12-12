@@ -12,6 +12,7 @@
   "author": "Mayra Urquiza",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "connect-mongo": "^4.6.0",
     "express": "^4.17.1",
     "express-handlebars": "^5.3.4",
@@ -21,6 +22,8 @@
     "mongoose": "^6.0.13",
     "mysql": "^2.18.1",
     "normalizr": "^3.6.1",
+    "passport": "^0.5.0",
+    "passport-local": "^1.0.0",
     "socket.io": "^4.4.0",
     "sqlite3": "^5.0.2"
   }

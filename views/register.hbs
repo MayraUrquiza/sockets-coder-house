@@ -2,9 +2,9 @@
   <div class="card text-dark bg-light mb-3" style="margin-top: 2%;">
     <div class="card-body">
       <figure class="text-center">
-        <h3>Login de usuario</h3>
+        <h3>Registro de usuario</h3>
       </figure>
-      <form action="/api/login" method="POST">
+      <form action="/api/register" method="POST">
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
           <input
@@ -22,17 +22,17 @@
             class="form-control"
             id="password"
             name="password"
-            placeholder="Ingrese su contraseña"
+            placeholder="Ingrese una contraseña"
           />
         </div>
         <div class="d-grid gap-2 col-6 mx-auto">
-          <button type="submit" class="btn btn-success">Ingresar</button>
+          <button type="submit" class="btn btn-success">Registrarme</button>
           <div style="display: flex; flex-direction: row; align-items: end;">
             <hr class="dropdown-divider" style="width: 45%;">
             <span style="width: 10%; text-align: center;">o</span>
             <hr class="dropdown-divider" style="width: 45%;">
           </div>
-          <a href="/register" class="link-info" style="text-align: center;">Registrarme</a>
+          <a href="/login" class="link-info" style="text-align: center;">Iniciar sesión</a>
         </div>
       </form>
     </div>
