@@ -1,3 +1,5 @@
+import os from 'os';
+
 class InfoController {
   getInfo = async (req, res) => {
     const info = {
@@ -8,6 +10,7 @@ class InfoController {
       executionPath: process.argv[1],
       processId: process.pid,
       projectFolder: process.cwd(),
+      CPUs: os.cpus().length,
     };
     res.render("info", {info});
   };
