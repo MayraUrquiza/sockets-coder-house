@@ -3,15 +3,35 @@ import handlebars from "express-handlebars";
 import { Server as HttpServer } from "http";
 import { Server as IOServer } from "socket.io";
 import routerProductsMock from "./router/productMockRouter.js";
-import routerProducts from "./router/productrouter.js";
+import routerProducts from "./router/productRouter.js";
+import routerInfo from "./router/infoRouter.js";
+import routerRandom from "./router/randomRouter.js";
 import connectSocket from "./utils/socket.js";
 import mongoose from "mongoose";
 import session from "express-session";
 import { initializePassport, getPassport } from "./utils/passport.js";
+import dotenv from 'dotenv';
+import yargs from 'yargs';
+import cluster from 'cluster'; 
 
-const PORT = process.env.PORT || 8080;
+dotenv.config();
 
-mongoose.connect("mongodb://localhost:27017/ecommerce", {
+const args = yargs(process.argv.slice(2));
+
+const argv = args
+  .alias({
+    p: "port",
+    m: "mode",
+  })
+  .default({
+    port: 8080,
+    mode: "FORK",
+  }).argv;
+
+const PORT = argv.port;
+const MODE = argv.mode;
+
+mongoose.connect(process.env.DATABASE_URI, {
   serverSelectionTimeoutMS: 5000,
 });
 console.log("Base de datos mongoDB conectada");
@@ -21,7 +41,7 @@ const app = express();
 app.use(
   session({
     // store: MongoStore.create({mongoUrl: 'mongodb://localhost/sesiones'}),
-    secret: "supersecret",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 10000 * 60 },
@@ -37,7 +57,7 @@ const io = new IOServer(httpServer);
 connectSocket(io);
 
 app.use(express.json());
-app.use(express.static("public"));
+// app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.engine(
   "hbs",
@@ -117,8 +137,24 @@ app.get("/api/user-info", authenticate, (req, res) => {
 
 app.use("/api/productos", authenticate, routerProducts);
 app.use("/api/productos-test", authenticate, routerProductsMock);
+app.use("/", routerInfo);
 
-const server = httpServer.listen(PORT, () =>
-  console.log(`Listen on ${server.address().port}`)
-);
+if (MODE === "CLUSTER" && cluster.isPrimary) {
+  const CPUs =  os.cpus().length;
+
+  for (const i = 0; i < CPUs; i++) {
+    cluster.fork();    
+  }
+
+  cluster.on('exit', (worker) => {
+    cluster.fork();
+  });
+} else {
+  app.use("/api/randoms", routerRandom);
+}
+
+const server = httpServer.listen(PORT, () => {
+  console.log(`Listen on ${server.address().port}`);
+  console.log(`Server on mode ${MODE}`);
+});
 server.on("error", (error) => console.log(`Error en el servidor ${error}`));
