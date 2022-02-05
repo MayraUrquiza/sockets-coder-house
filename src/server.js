@@ -43,7 +43,7 @@ const app = express();
 
 app.use(
   session({
-    store: MongoStore.create({mongoUrl: 'mongodb://localhost/sesiones'}),
+    store: MongoStore.create({mongoUrl: process.env.DATABASE_URI}),
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
