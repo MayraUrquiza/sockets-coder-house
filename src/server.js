@@ -31,7 +31,7 @@ const argv = args
     mode: "FORK",
   }).argv;
 
-const PORT = argv.port;
+const PORT = process.env.PORT || argv.port;
 const MODE = argv.mode;
 
 mongoose.connect(process.env.DATABASE_URI, {
