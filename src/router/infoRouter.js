@@ -4,6 +4,6 @@ import InfoController from "../controllers/infoController.js";
 const routerInfo = Router();
 const infoController = new InfoController();
 
-routerInfo.get("/info", infoController.getInfo);
+routerInfo.get("/", infoController.getInfo);
 
 export default routerInfo;

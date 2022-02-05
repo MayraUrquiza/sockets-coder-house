@@ -1,34 +1,32 @@
-import KnexContainer from "../containers/KnexContainer.js";
-import MongoDBContainer from "../containers/MongoDBContainer.js";
-import mariaDBOptions from "./mariaDB.js";
-import MessageSchema from "../schemas/message.js";
 import {
   normalizeMessages,
 } from "./messagesNormalizer.js";
+import MessageApi from "../apis/message.js";
+import ProductApi from "../apis/product.js";
 
-const productsContainer = new KnexContainer("products", mariaDBOptions);
-const messagesContainer = new MongoDBContainer("mensajes", MessageSchema);
+const productsApi = new ProductApi();
+const messagesApi = new MessageApi();
 
 const connectSocket = (io) => {
   io.on("connection", async (socket) => {
     console.log("Nuevo cliente conectado");
 
-    const messages = await messagesContainer.getAll();
+    const messages = await messagesApi.getMessages();
     const { normalizedMessages, compression } = normalizeMessages(
       messages.map((message) => ({ ...message, id: message._id.toString() }))
     );
 
-    socket.emit("refreshProducts", await productsContainer.getAll());
+    socket.emit("refreshProducts", await productsApi.getProducts());
     socket.emit("refreshMessages", normalizedMessages, compression);
 
     socket.on("addProduct", async (producto) => {
-      await productsContainer.save(producto);
-      io.sockets.emit("refreshProducts", await productsContainer.getAll());
+      await productsApi.saveProduct(producto);
+      io.sockets.emit("refreshProducts", await productsApi.getProducts());
     });
 
     socket.on("addMessage", async (mensaje) => {
-      await messagesContainer.save(mensaje);
-      const messages = await messagesContainer.getAll();
+      await messagesApi.saveMessage(mensaje);
+      const messages = await messagesApi.getMessages();
       const { normalizedMessages, compression } = normalizeMessages(
         messages.map((message) => ({ ...message, id: message._id.toString() }))
       );
