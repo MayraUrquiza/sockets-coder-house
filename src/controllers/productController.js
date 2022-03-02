@@ -1,4 +1,4 @@
-import ProductApi from "../apis/product.js";
+import ProductApi from "../services/product.js";
 class ProductController {
   constructor() {
     this.productsApi = new ProductApi();

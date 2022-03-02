@@ -1,8 +1,8 @@
 import {
   normalizeMessages,
 } from "./messagesNormalizer.js";
-import MessageApi from "../apis/message.js";
-import ProductApi from "../apis/product.js";
+import MessageApi from "../services/message.js";
+import ProductApi from "../services/product.js";
 import logger from "./logger.js";
 
 const productsApi = new ProductApi();
