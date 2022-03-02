@@ -9,6 +9,7 @@ class ProductController {
       const products = await this.productsApi.getProducts();
       res.status(200).json(products);
     } catch (error) {
+      logger.error("Error al consultar productos", error);
       res.status(500).json({ error });
     }
   };
@@ -24,13 +25,13 @@ class ProductController {
         res.status(200).json({ product: result });
       }
     } catch (error) {
+      logger.error("Error al obtener producto.", error);
       res.status(500).json({ error });
     }
   };
 
   saveProduct = async (req, res) => {
     try {
-      console.log("entra acá")
       const { title, price, thumbnail } = req.body;
       const product = {
         title,
@@ -41,6 +42,7 @@ class ProductController {
       await this.productsApi.saveProduct(product);
       res.status(200).json({ msg: "El producto fue creado.", product });
     } catch (error) {
+      logger.error("Error al guardar producto.", error);
       res.status(500).json({ error });
     }
   };
@@ -63,6 +65,7 @@ class ProductController {
         res.status(200).json({ msg: "El producto fue actualizado.", product: result });
       }
     } catch (error) {
+      logger.error("Error al actualizar producto.", error);
       res.status(500).json({ error });
     }
   };
@@ -79,6 +82,7 @@ class ProductController {
         res.status(200).json(result);
       }
     } catch (error) {
+      logger.error("Error al eliminar producto.", error);
       res.status(500).json({ error });
     }
   };

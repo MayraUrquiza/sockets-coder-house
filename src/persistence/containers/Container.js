@@ -1,5 +1,6 @@
 const fs = require("fs")
 const { join } = require("path")
+const { default: logger } = require("../../utils/logger")
 const FILE_PATH = "data/"
 
 class Container {
@@ -20,7 +21,7 @@ class Container {
       await this.persist(content)
       return id
     } catch (error) {
-      console.log("ERROR:", error)
+      logger.error("ERROR:", error)
     }
   }
 
@@ -30,7 +31,7 @@ class Container {
       content.push(entry)
       await this.persist(content)
     } catch (error) {
-      console.log("ERROR:", error)
+      logger.error("ERROR:", error)
     }
   }
 
@@ -39,7 +40,7 @@ class Container {
       const content = await this.getAll()
       return content.find((entry) => entry.id === id)
     } catch (error) {
-      console.log("ERROR:", error)
+      logger.error("ERROR:", error)
     }
   }
 
@@ -58,7 +59,7 @@ class Container {
       const filteredContent = content.filter((entry) => entry.id !== id)
       await this.persist(filteredContent)
     } catch (error) {
-      console.log("ERROR:", error)
+      logger.error("ERROR:", error)
     }
   }
 
@@ -66,7 +67,7 @@ class Container {
     try {
       await this.persist([])
     } catch (error) {
-      console.log("ERROR:", error)
+      logger.error("ERROR:", error)
     }
   }
 }

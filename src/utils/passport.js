@@ -1,7 +1,7 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { createHash, isValidPassword } from "./bcrypt.js";
-import { User } from "../schemas/user.js";
+import { User } from "../models/user.js";
 
 export const getPassport = () => {
   return passport;

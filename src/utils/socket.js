@@ -3,13 +3,14 @@ import {
 } from "./messagesNormalizer.js";
 import MessageApi from "../apis/message.js";
 import ProductApi from "../apis/product.js";
+import logger from "./logger.js";
 
 const productsApi = new ProductApi();
 const messagesApi = new MessageApi();
 
 const connectSocket = (io) => {
   io.on("connection", async (socket) => {
-    console.log("Nuevo cliente conectado");
+    logger.info("Nuevo cliente conectado");
 
     const messages = await messagesApi.getMessages();
     const { normalizedMessages, compression } = normalizeMessages(

@@ -1,4 +1,5 @@
 import knex from "knex";
+import logger from "../../utils/logger.js";
 class KnexContainer {
   constructor(tableName, options) {
     this.connection = knex(options);
@@ -10,7 +11,7 @@ class KnexContainer {
       const id = await this.connection(this.table).insert(entry);
       return id[0];
     } catch (error) {
-      console.log("ERROR:", error);
+      logger.error("ERROR:", error);
     }
   }
 
@@ -18,7 +19,7 @@ class KnexContainer {
     try {
       await this.connection(this.table).where("id", id).update(entry);
     } catch (error) {
-      console.log("ERROR:", error);
+      logger.error("ERROR:", error);
     }
   }
 
@@ -26,7 +27,7 @@ class KnexContainer {
     try {
       return await this.connection(this.table).select("*").where("id", id);
     } catch (error) {
-      console.log("ERROR:", error);
+      logger.error("ERROR:", error);
     }
   }
 
@@ -42,7 +43,7 @@ class KnexContainer {
     try {
       await this.connection(this.table).where("id", id).del();
     } catch (error) {
-      console.log("ERROR:", error);
+      logger.error("ERROR:", error);
     }
   }
 
@@ -50,7 +51,7 @@ class KnexContainer {
     try {
       await this.connection(this.table).del();
     } catch (error) {
-      console.log("ERROR:", error);
+      logger.error("ERROR:", error);
     }
   }
 }

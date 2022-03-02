@@ -2,10 +2,10 @@ import express from "express";
 import handlebars from "express-handlebars";
 import { Server as HttpServer } from "http";
 import { Server as IOServer } from "socket.io";
-import routerProductsMock from "./router/productMockRouter.js";
-import routerProducts from "./router/productRouter.js";
-import routerInfo from "./router/infoRouter.js";
-import routerRandom from "./router/randomRouter.js";
+import routerProductsMock from "./routes/productMockRouter.js";
+import routerProducts from "./routes/productRouter.js";
+import routerInfo from "./routes/infoRouter.js";
+import routerRandom from "./routes/randomRouter.js";
 import connectSocket from "./utils/socket.js";
 import { initializePassport, getPassport } from "./utils/passport.js";
 import logger from "./utils/logger.js";
@@ -37,13 +37,13 @@ const MODE = argv.mode;
 mongoose.connect(process.env.DATABASE_URI, {
   serverSelectionTimeoutMS: 5000,
 });
-console.log("Base de datos mongoDB conectada");
+logger.info("Base de datos mongoDB conectada");
 
 const app = express();
 
 app.use(
   session({
-    store: MongoStore.create({mongoUrl: 'mongodb://localhost/sesiones'}),
+    store: MongoStore.create({mongoUrl: process.env.DATABASE_URI}),
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
@@ -154,7 +154,7 @@ app.use("/info", logRequestInfo, routerInfo);
 if (MODE === "CLUSTER" && cluster.isPrimary) {
   const CPUs =  os.cpus().length;
 
-  for (const i = 0; i < CPUs; i++) {
+  for (let i = 0; i < CPUs; i++) {
     cluster.fork();    
   }
 
@@ -172,7 +172,7 @@ app.get('*', (req, res) => {
 })
 
 const server = httpServer.listen(PORT, () => {
-  console.log(`Listen on ${server.address().port}`);
-  console.log(`Server on mode ${MODE}`);
+  logger.info(`Listen on ${server.address().port}`);
+  logger.info(`Server on mode ${MODE}`);
 });
-server.on("error", (error) => console.log(`Error en el servidor ${error}`));
+server.on("error", (error) => logger.error(`Error en el servidor ${error}`));

@@ -1,10 +1,9 @@
-import MessageSchema from "../schemas/message.js";
-import MongoDBContainer from "../containers/MongoDBContainer.js";
+import container from "../persistence/persistence.js";
 import logger from "../utils/logger.js";
 
 class MessageApi {
   constructor() {
-    this.messagesContainer = new MongoDBContainer("mensajes", MessageSchema);
+    this.messagesContainer = container("mensajes");
   }
 
   getMessages = async () => {
